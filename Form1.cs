@@ -2,19 +2,14 @@
 using StupidWehcat.ResultModel;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 using System.IO;
 using StupidWehcat.PostModel.Models;
 using StupidWehcat.DataBase;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace StupidWehcat
 {
@@ -46,7 +41,7 @@ namespace StupidWehcat
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             RefushCode();
             textBox4.Text = "10";
-
+            textBox8.Text = "10";
             int index = 1;
             foreach (var item in Words.phy)
             {
@@ -211,9 +206,75 @@ namespace StupidWehcat
             textBox1.Text = str;
         }
 
+        private void update_text2(string str)
+        {
+            textBox9.Text = str;
+        }
+
+        private void lable_text2(string str)
+        {
+            label17.Text = str;
+        }
+
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             textBox3.Text = this.dataGridView1.Rows[e.RowIndex].Cells["UserName"].Value.ToString();
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            string toUser = textBox6.Text;
+            string toMsg = textBox7.Text;
+            MsgData data = new MsgData();
+            BaseRequest baseRequest = new BaseRequest();
+            baseRequest.Sid = wxsid;
+            baseRequest.Uin = wxuin;
+            baseRequest.Skey = skey;
+            data.BaseRequest = baseRequest;       
+
+            Msg _msg = new Msg();
+            _msg.Type = 1;
+            _msg.Content = toMsg;
+            _msg.FromUserName = user_name;
+            _msg.ToUserName = toUser;
+            data.Msg = _msg;
+
+
+
+            int times = int.Parse(textBox8.Text);
+
+            Task task = Task.Run(() =>
+            {
+                int i = 0;
+                while (i < times)
+                {
+                    i++;
+
+                    if (checkBox3.Checked)
+                    {
+                        int _d = DateTime.Now.Millisecond;
+                        Random r = new Random(_d);
+                        data.Msg.Content = keyValuePairs[r.Next(1, keyValuePairs.Count)];
+                    }
+
+                    WechatHttpClient<MsgResponse, MsgRequest> wechatHttpClient = new WechatHttpClient<MsgResponse, MsgRequest>(new MsgRequest(pass_ticket, data));
+                    MsgResponse response = wechatHttpClient.DoPost();
+
+                    BeginInvoke(new update_textbox(update_text2), JsonConvert.SerializeObject(response));
+                    BeginInvoke(new update_textbox(lable_text2), i.ToString());
+                    Thread.Sleep(500);
+
+                    if (checkBox4.Checked)
+                    {
+                        i = 0;
+                    }
+                }
+            });
+        }
+
+        private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            textBox6.Text = this.dataGridView1.Rows[e.RowIndex].Cells["UserName"].Value.ToString();
         }
     }
 }
