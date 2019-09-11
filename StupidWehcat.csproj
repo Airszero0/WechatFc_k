@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonHelper.cs" />
     <Compile Include="DataBase\Words.cs" />
     <Compile Include="ListSource.cs" />
     <Compile Include="MyBaseRequset.cs" />
@@ -66,6 +67,8 @@
     <Compile Include="PostModel\LoginLoopRequest.cs" />
     <Compile Include="PostModel\Models\BaseRequest.cs" />
     <Compile Include="PostModel\MsgRequest.cs" />
+    <Compile Include="PostModel\PullContactRequest.cs" />
+    <Compile Include="PostModel\SyncCheckRequest.cs" />
     <Compile Include="PostModel\WechatInitRequest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +78,8 @@
     <Compile Include="ResultModel\LoginLoopResponse.cs" />
     <Compile Include="ResultModel\Models\BaseResponse.cs" />
     <Compile Include="ResultModel\MsgResponse.cs" />
+    <Compile Include="ResultModel\PullContactResponse.cs" />
+    <Compile Include="ResultModel\SyncCheckResponse.cs" />
     <Compile Include="ResultModel\WechatInitResponse.cs" />
     <Compile Include="WechatHttpClient.cs" />
     <EmbeddedResource Include="Form1.resx">

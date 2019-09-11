@@ -54,31 +54,11 @@ namespace StupidWehcat.PostModel
 
         public string ToUserName { get; set; }
 
-        public string LocalID => TimeSp(DateTime.Now);
+        public string LocalID => CommonHelper.TimeSp_Len17(DateTime.Now);
 
         public string ClientMsgId => this.LocalID;
 
-        public string MediaId { get; set; }
-
-        private string TimeSp(DateTime time)
-        {
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            long t = (time.Ticks - startTime.Ticks) / 10000;
-            return t.ToString() + GetRandomStr(4);
-        }
-
-        private string GetRandomStr(int len)
-        {
-            string result = "";
-            Random random = new Random();
-            for (int i = 0; i < len; i++)
-            {
-                byte[] buffer = Guid.NewGuid().ToByteArray();
-                int iSeed = BitConverter.ToInt32(buffer, 0);
-                random = new Random(iSeed);
-                result = result + random.Next(0, 9).ToString();
-            }
-            return result;
-        }
+        public string MediaId { get; set; }   
+      
     }
 }

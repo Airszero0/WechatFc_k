@@ -22,17 +22,12 @@ namespace StupidWehcat.PostModel
 
         private PostData postData;
 
-        private string TimeSp(DateTime time)
-        {
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            string t = (time.Ticks - startTime.Ticks).ToString();
-            return t.Substring(t.Length-9);
-        }
+
 
         public InitPostModel(string ticket, BaseRequest request)
         {
 
-            base.Url = "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit?r=-" + TimeSp(DateTime.Now) + "&pass_ticket=" + ticket;
+            base.Url = "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit?r=-" + CommonHelper.TimeSp_Len9(DateTime.Now) + "&pass_ticket=" + ticket;
             postData = new PostData(request);
         }
         public HttpContent GetContent()
